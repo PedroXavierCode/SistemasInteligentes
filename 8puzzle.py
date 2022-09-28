@@ -102,15 +102,15 @@ def try_paths(M, M_end):
             print(M_next)
         if (row >= 1):
             M_current = copy.deepcopy(M)
-            M_next = move_up(M)
+            M_next = move_up(M_current)
             print(M_next)
         if (col >= 1):
             M_current = copy.deepcopy(M)
-            M_next = move_left(M)
+            M_next = move_left(M_current)
             print(M_next)
         if (col <= 1):
             M_current = copy.deepcopy(M)
-            M_next = move_right(M)
+            M_next = move_right(M_current)
             print(M_next)
     # print(frontier)
 
