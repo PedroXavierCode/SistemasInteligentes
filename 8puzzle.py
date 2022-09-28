@@ -49,43 +49,6 @@ def misplaced_count(M, M_end):
                 h = h + 1
     return h
 
-# def try_paths(M, M_end):
-#     frontier = []
-#     visited = []
-#     open = []
-#     path = []
-#     path.append(M)
-#     while np.allclose(M,M_end) != True:
-#         row, col = find_value(M, 0)
-#         if path not in open:
-#             if (row <= 1):
-#                 if move_down() not in visited:
-#                     M = move_down(M)
-#                     visited.append(M)
-#                     path.append(M)
-#                     open.append(path)
-#             if (row >= 1):
-#                 if move_up(M) not in visited:
-#                     M = move_up(M)
-#                     visited.append(M)
-#                     path.append(M)
-#                     open.append(path)
-#             if (col >= 1):
-#                 if move_left(M) not in visited:
-#                     M = move_left(M)
-#                     visited.append(M)
-#                     path.append(M)
-#                     open.append(path)
-#             if (col <= 1):
-#                 if move_right(M) not in visited:
-#                     M = move_right(M)
-#                     visited.append(M)
-#                     path.append(M)
-#                     open.append(path)
-#     print("Solução encontrada")
-#     frontier.append(path)
-#     return M
-
 def create_paths(M, M_end):
     open = []
     if np.allclose(M, M_end):
@@ -121,8 +84,8 @@ def create_paths(M, M_end):
 #     else:
 #         M = try_paths(M, M_end)
 
-M = create_paths(M_in,M_end)
-
+open = create_paths(M_in,M_end)
+print(open)
 # print(M_in)
 # teste = move_down(M_in)
 # print(M_in)
