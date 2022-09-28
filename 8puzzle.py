@@ -1,10 +1,6 @@
 import numpy as np
 import copy
 
-# Gera matrizes
-M_in = np.matrix('5 8 6; 2 0 7; 1 3 4')
-M_end = np.matrix('1 2 3; 4 5 6; 7 8 0')
-
 def find_value(M, value):
     row, col = np.where(M==value)
     return row, col
@@ -49,7 +45,7 @@ def misplaced_count(M, M_end):
                 h = h + 1
     return h
 
-def create_paths(M, M_end):
+def generate_frontier(M, M_end, visited, cost):
     open = []
     if np.allclose(M, M_end):
         print("Matriz já é solução. Fim do jogo.")
@@ -58,34 +54,76 @@ def create_paths(M, M_end):
         if (row <= 1):
             M_current = copy.deepcopy(M)
             M_next = move_down(M_current)
-            open.append(M_next)
+            if any(np.array_equal(M_next, i) for i in visited) == False:
+                open.append((M_next, cost))
         if (row >= 1):
             M_current = copy.deepcopy(M)
             M_next = move_up(M_current)
-            open.append(M_next)
+            if any(np.array_equal(M_next, i) for i in visited) == False:
+                open.append((M_next,cost))
         if (col >= 1):
             M_current = copy.deepcopy(M)
             M_next = move_left(M_current)
-            open.append(M_next)
+            if any(np.array_equal(M_next, i) for i in visited) == False:
+                open.append((M_next, cost))
         if (col <= 1):
             M_current = copy.deepcopy(M)
             M_next = move_right(M_current)
-            open.append(M_next)
-    return(open)
+            if any(np.array_equal(M_next, i) for i in visited) == False:
+                open.append((M_next,cost))
+    return open
 
 #---------------------------------------------------------------------------
 #   MAIN CODE
 #---------------------------------------------------------------------------
 
-# while np.allclose(M_in,M_end) != True:
-#     if np.allclose(M_in,M) == True:
-#         M = try_paths(M_in, M_end)
-#         print(M)
-#     else:
-#         M = try_paths(M, M_end)
+# Gera matrizes
+M_in = np.matrix('5 8 6; 2 0 7; 1 3 4')
+M_end = np.matrix('1 2 3; 4 5 6; 7 8 0')
 
-open = create_paths(M_in,M_end)
-print(open)
+# Inicializa fronteira e nodos fechados
+open = []
+visited = []
+
+# Inicializa custo uniforme
+cost = 0
+
+# Inicializa primeiro nodo
+open.append((M_in, cost))
+M = M_in
+
+# Faz primeira iteração
+open.sort(key=lambda x:x[1])
+M = open.pop(0)[0]
+cost = cost + 1
+open.append(generate_frontier(M, M_end, visited, cost))
+visited.append(M)
+
+while np.allclose(M,M_end) != True:
+    open.sort(key=lambda x:x[0][0][1])
+    M = open[0][0][0]
+    open[0].pop(0)
+    cost = cost + 1
+    open.append(generate_frontier(M, M_end, visited, cost))
+    visited.append(M)
+
+# print(open[0][0][0])
+# print(open)
+# print(M)
+# cost = cost + 1
+# open.append(generate_frontier(M, M_end, visited, cost))
+# visited.append(M)
+    # if cost == 2:
+    #     break
+
+# print(open)
+# print(visited)
+print("Matriz solução encontrada. Fim de Jogo.")
+print(M)
+#---------------------------------------------------------------------------
+#   DEBUG
+#---------------------------------------------------------------------------
+
 # print(M_in)
 # teste = move_down(M_in)
 # print(M_in)
