@@ -86,33 +86,29 @@ def misplaced_count(M, M_end):
 #     frontier.append(path)
 #     return M
 
-def try_paths(M, M_end):
-    visited = []
+def create_paths(M, M_end):
     open = []
-    path = []
-
     if np.allclose(M, M_end):
         print("Matriz já é solução. Fim do jogo.")
     else:
-        # while np.allclose(M,M_end) != True:
         row, col = find_value(M, 0)
         if (row <= 1):
             M_current = copy.deepcopy(M)
             M_next = move_down(M_current)
-            print(M_next)
+            open.append(M_next)
         if (row >= 1):
             M_current = copy.deepcopy(M)
             M_next = move_up(M_current)
-            print(M_next)
+            open.append(M_next)
         if (col >= 1):
             M_current = copy.deepcopy(M)
             M_next = move_left(M_current)
-            print(M_next)
+            open.append(M_next)
         if (col <= 1):
             M_current = copy.deepcopy(M)
             M_next = move_right(M_current)
-            print(M_next)
-    # print(frontier)
+            open.append(M_next)
+    return(open)
 
 #---------------------------------------------------------------------------
 #   MAIN CODE
@@ -125,7 +121,7 @@ def try_paths(M, M_end):
 #     else:
 #         M = try_paths(M, M_end)
 
-M = try_paths(M_in,M_end)
+M = create_paths(M_in,M_end)
 
 # print(M_in)
 # teste = move_down(M_in)
